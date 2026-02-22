@@ -5,8 +5,8 @@ import subprocess
 Everything_URL = "http://localhost:8888/"
 
 
-def search(app_name):
-    query = f'{app_name} ext:exe !setup !installer'
+def search(name, extensions=None, exclude=None):
+    query =  query_builder(name, extensions, exclude)
 
     params = {
         "search" : query,
@@ -28,6 +28,18 @@ def search(app_name):
 
     return results
 
+def query_builder(name, extensions = None, exclude_words = None):
+    query = name
+
+    if extensions:
+        ext_string = ";".join(extensions) 
+        query += f" ext: {ext_string}"
+
+    if exclude_words:
+        for word in  exclude_words:
+            query += f" !{word}"
+
+    return query
 
 def rank_paths(paths, app_name):
     best_path = None
@@ -36,6 +48,22 @@ def rank_paths(paths, app_name):
         score = 0
         lower_path = path.lower()
         filename = os.path.basename(lower_path)
+
+        if filename.startswith(app_name):
+            score += 40
+
+        if filename.endswith(".pdf"):
+            score += 20
+        elif filename.endswith(".mp3"):
+            score += 15
+        elif filename.endswith(".mp4"):
+            score += 10
+
+        if "documents" in lower_path:
+            score += 15
+
+        if "downloads" in lower_path:
+            score -= 10
 
         if filename == f"{app_name}.exe":
             score += 50
@@ -60,12 +88,18 @@ def rank_paths(paths, app_name):
 
 if __name__ == "__main__":
     app_name = input("Enter the app you want to open: ").lower()
-    paths = search(app_name)
+    if "." in app_name:
+        paths = search(app_name)
+    else:
+        paths = search(app_name, extensions=["exe"])
+
     best_match = rank_paths(paths, app_name)
 
+
     if best_match:
-        print(f"Running {app_name}... ")
-        subprocess.Popen(best_match)
+        print(f"Running {app_name}...")
+        os.startfile(best_match)
     else:
-        print("No Valid Application found!!")
+        print(f"Running {app_name}...")
+        subprocess.Popen(f"start {app_name}", shell=True)
 
