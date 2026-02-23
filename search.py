@@ -86,8 +86,8 @@ def rank_paths(paths, app_name):
 
 
 
-if __name__ == "__main__":
-    app_name = input("Enter the app you want to open: ").lower()
+def search_open(app_name):
+
     if "." in app_name:
         paths = search(app_name)
     else:
@@ -103,3 +103,6 @@ if __name__ == "__main__":
         print(f"Running {app_name}...")
         subprocess.Popen(f"start {app_name}", shell=True)
 
+if __name__ == "__main__":
+        app_name = input("Enter the app you want to open: ").lower()
+        search_open(app_name)
