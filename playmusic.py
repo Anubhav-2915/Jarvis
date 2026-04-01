@@ -4,10 +4,13 @@ import os
 import time
 import subprocess
 from spotipy.oauth2 import SpotifyOAuth
+from dotenv import load_dotenv
 
-CLIENT_ID = "acd9ded8e8944435b146980faabcbcf1"
-CLIENT_SECRET = "c504d6dbdea14e47bc1be9c0130b973f"
-REDIRECT_URI = "http://127.0.0.1:8888/callback"
+load_dotenv()
+
+CLIENT_ID = os.getenv("SPOTIPY_CLIENT_ID")
+CLIENT_SECRET = os.getenv("SPOTIPY_CLIENT_SECRET")
+REDIRECT_URI = os.getenv("SPOTIPY_REECT_URDIRI")
 
 SCOPE = "user-read-playback-state user-modify-playback-state"
 
