@@ -15,8 +15,8 @@ def command_handler(command):
         weather()
 
     elif "time" in command or "date" in command:
-        print(get_time())
-        print(get_date())
+        print("Today is: ", get_date())
+        print("it's ",get_time(),"right now!!")
 
     elif "play" in command or "song" in command or "music" in command:
         run_music();
@@ -26,5 +26,6 @@ def command_handler(command):
 
 
 if __name__ == "__main__":
-    user_input = input("Enter command: ")
+    user_input = input("Hello Boss! What shall I do for you today: ")
+    print("Ok Boss!!")
     command_handler(user_input)
