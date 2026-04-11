@@ -3,6 +3,7 @@ from weather import weather
 from time_module import get_date
 from time_module import get_time
 from playmusic import run_music
+import os
 
 def command_handler(command):
     command = command.lower()
@@ -26,6 +27,8 @@ def command_handler(command):
 
 
 if __name__ == "__main__":
-    user_input = input("Hello Boss! What shall I do for you today: ")
+    os.system(f"say Hello Boss! What shall I do for you today:" )
+    user_input = input("say Hello Boss! What shall I do for you today:")
     print("Ok Boss!!")
+    os.system(f"say Ok Boss!!")
     command_handler(user_input)
